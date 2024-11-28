@@ -20,6 +20,8 @@ public class PlayerInputManager : MonoBehaviour
     private void Awake()
     {
         m_TPCameraTransform = Camera.main.transform;
+        m_InputAsset.Enable();
+        m_InputAsset.FindActionMap("Player").Enable();
     }
     private InputAction FindPlayerInputAction(string actionName)
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMoveFSM : BasePlayerComponent
 {
-    private readonly TStates m_InitialState = TStates.Walk;
+    [SerializeField] private readonly TStates m_InitialState = TStates.Walk;
     private List<PlState> m_PlStatesList = new();
     
     private Vector3 m_Acceleration;
@@ -44,20 +44,11 @@ public class PlayerMoveFSM : BasePlayerComponent
         m_CurrentState = GetState(m_InitialState);
         ChangeState(m_InitialState);
     }
-    private void Update()
-    {
-        // Vector2 l_LastHorVelocity = new Vector2(m_Player.Controller.LastVel.x, m_Player.Controller.LastVel.z);
-        // if (l_LastHorVelocity.magnitude != m_Player.Controller.HorVelocity.magnitude)
-        // {
-        //     //if(m_Player.Controller.HorVelocity.magnitude <= 0) { audio }
-        //     //else
-        // }
-    }
-
     private void OnBeforeMove()
     {
         var l_Input = m_Player.Input.Horizontal;
 
+        Debug.Log(l_Input);
         if (m_Player.Controller.IsLocked)
             l_Input = Vector3.zero;
         
@@ -74,13 +65,14 @@ public class PlayerMoveFSM : BasePlayerComponent
 
         if (!m_Player.Controller.IsGrounded)
         {
-            // if (l_Input == Vector3.zero || m_Player.Controller.IsSliding)
-            // {
-            //     if (!m_DragInAir)
-            //         m_Acceleration = Vector3.zero;
-            // }
+            if (l_Input == Vector3.zero)
+            {
+                if (!m_DragInAir)
+                    m_Acceleration = Vector3.zero;
+            }
         }
         m_Player.Controller.AddImpulse(m_Acceleration * (Time.fixedDeltaTime), false, false);
+        Debug.Log("BEFORE MOVE FSM");
     }
     public void ChangeState(TStates newStateType)
     {

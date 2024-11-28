@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+[RequireComponent(typeof(CharacterController))]
+public class PlayerController : BasePlayerComponent
 {
     // Events for communication
     public Action OnBeforeMove;
